@@ -2,7 +2,7 @@ package com.example.studentmanagement
 
 import org.springframework.stereotype.Service
 
-@Service
+
 interface ClassService {
-    fun classNames(): List<String>
+    fun classNames(classNumber: Int): List<String>
 }

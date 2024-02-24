@@ -11,6 +11,6 @@ class ClassRestController(val classService: ClassService) {
 
     @GetMapping("/classes")
     fun getClasses(): List<String> {
-        return classService.classNames()
+        return classService.classNames(2)
     }
 }
