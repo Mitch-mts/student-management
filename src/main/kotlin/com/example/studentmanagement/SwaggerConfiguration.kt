@@ -1,38 +1,29 @@
 package com.example.studentmanagement
 
+
 import io.swagger.v3.oas.models.OpenAPI
 import io.swagger.v3.oas.models.info.Contact
 import io.swagger.v3.oas.models.info.Info
 import io.swagger.v3.oas.models.info.License
+import org.springdoc.core.GroupedOpenApi
+import org.springdoc.core.SwaggerUiConfigParameters
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-class SwaggerConfiguration {
+class SwaggerConfiguration: WebMvcConfigurer {
     @Bean
-    fun customOpenAPI(): OpenAPI {
-        return OpenAPI().info(apiInfo())
+    fun groupedOpenApi(): GroupedOpenApi {
+        return GroupedOpenApi.builder()
+            .group("api")
+            .packagesToScan("com.example.studentmanagement") // Change this to your package name
+            .build()
     }
 
-    private fun apiInfo(): Info {
-        return Info()
-            .title("Students Management API")
-            .description("API for managing students processes")
-            .version("2.0")
-            .contact(apiContact())
-            .license(apiLicense())
-    }
-
-    private fun apiLicense(): License {
-        return License()
-            .name("MIT License")
-            .url("#")
-    }
-
-    private fun apiContact(): Contact {
-        return Contact()
-            .name("MTech Innovations")
-            .email("bigmitchsystems@gmail.com")
-            .url("https://mitcht.netlify.app/")
+    override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
+        registry.addResourceHandler("/swagger-ui/**")
+            .addResourceLocations("classpath:/META-INF/resources/webjars/springdoc-openapi-ui/")
     }
 }
